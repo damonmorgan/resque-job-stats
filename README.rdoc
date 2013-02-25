@@ -114,9 +114,28 @@ You may set the number of jobs to include by setting the @wait_times_recorded va
 
 Note: Because the QueueWait module adds an enqueued_at arg to every job which adds a small overhead the module is not included by default in Resque::Plugins::JobStats.
 
+== Resque Web Tab
+
+The Resque web page for showing the statistics will only display jobs that extend Resque::Plugins::JobStats (in other words, just
+the jobs that include all of the metrics):
+
+  class MyJob
+    extend Resque::Plugins::JobStats
+    ...
+  end
+
+The interface can be included in your app like this:
+
+  require 'resque-job-stats/server'
+
+If you wish to display only certain metrics, you can filter the metrics accordingly.  The default metrics can be found in Resque::Plugins::JobStats::Statistic.
+
+  Resque::Server.job_stats_to_display = [:jobs_enqueued, :job_rolling_avg]
+
 == TODO
 
-* Add ui for stats in resque-web
+* Find clean way to add queue wait time stats.
+* Screen shot of interface with lots of stats
 
 == Contributing to resque-job-stats
 
@@ -128,7 +147,12 @@ Note: Because the QueueWait module adds an enqueued_at arg to every job which ad
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
+== Contributers
+
+* {damonmorgan}[https://github.com/damonmorgan]
+* {unclebilly}[https://github.com/unclebilly]
+
 == Copyright
 
-Copyright (c) 2011 Alan Peabody. See LICENSE.txt for further details.
+Copyright (c) 2011-2012 Alan Peabody. See LICENSE.txt for further details.
 

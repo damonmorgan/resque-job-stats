@@ -5,6 +5,7 @@ require 'resque/plugins/job_stats/failed'
 require 'resque/plugins/job_stats/duration'
 require 'resque/plugins/job_stats/timeseries'
 require 'resque/plugins/job_stats/queue_wait'
+require 'resque/plugins/job_stats/statistic'
 
 module Resque
   module Plugins
@@ -15,6 +16,14 @@ module Resque
       include Resque::Plugins::JobStats::Duration
       include Resque::Plugins::JobStats::Timeseries::Enqueued
       include Resque::Plugins::JobStats::Timeseries::Performed
+
+      def self.extended(base)
+        self.measured_jobs << base
+      end
+
+      def self.measured_jobs
+        @measured_jobs ||= []
+      end
     end
   end
 end

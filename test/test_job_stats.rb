@@ -184,4 +184,7 @@ class TestResqueJobStats < MiniTest::Unit::TestCase
     assert_in_delta 1.5, CustomWaitJob.rolling_avg_wait_time, 0.5
   end
 
+  def test_measured_jobs
+    assert_equal [SimpleJob], Resque::Plugins::JobStats.measured_jobs
+  end
 end
